@@ -1,0 +1,179 @@
+#!/bin/bash
+
+
+if [ "$1" = "--help" ] ; then
+  echo "### Help for TERAD ###
+# Inputs are:
+# 1. A file to search for TE in fasta format
+# 2. The number of cores to use
+# 3. The custom library to search for TE
+# 
+# Make sure your input file, TERAD, extract_cdhit2.R, and RAD_TE_summary.R in the same folder as well as your custom TE library in fasta format
+# 
+# Test run:
+# ./TERAD test_file.fasta 4 ./arthro_ES_ND_PV_classified.fa none
+# or 
+# ./TERAD test_file.fasta 4 none arthropods         *** THIS GIVES AN ERROR, rmblast need to be installed again... ***
+
+
+# 
+# See readme for installation instructions
+"
+  exit 0
+fi
+
+echo "
+
+########################################
+### Thanks for using TERAD
+########################################"
+
+FILE=${1?Error: No filename given.
+		See "--help" for help!}
+CORE=${2?Error: No core given. 
+		See "--help" for help!}
+LIB=${3?Error: No TE library path given. 
+		Enter "none" if specifying species as the fourth parameter.
+		See "--help" for help!}
+SP=${4?Error: No species given. 
+		Enter "none" if specifying custom TE library at the third parameter.
+		See "--help" for help!} 
+		
+			
+
+
+echo "
+
+########################################
+### Input parameters
+########################################
+"
+
+echo "1. File name: $1"
+echo "2. No. of cores: $2"
+echo "3. Path to TE database: $3"
+echo "4. TE query species: $4"
+
+
+echo "
+
+########################################
+### Step 1/5: Clustering with cd-hit 
+########################################
+"
+cd-hit-est -i $FILE -d 0 -o ./"$FILE".cd -c 0.95 -G 0 -n 9 -r 0 -g 1 -A 40 -p 1 -M 0 -T $CORE
+
+
+echo "
+
+########################################
+#### Step 2/5: Extracting cd-hit result
+########################################
+"
+cat  "$FILE".cd.clstr| awk 'BEGIN{FS="[\t:]|\/|... at |, >";OFS=","};{$1=$1};{print $0} ' | awk 'BEGIN{OFS=",";RS=">Cluster ";FS="\n"};{ for (i=3; i<=NF; i++) print $1,$2,$i }'| tr -d 'Cluster |...*|%'| awk 'BEGIN{FS=","};{print $1, $4, $5, $7, $8, $9, $10, $11, $13}' > "$FILE".cd.summary1
+
+Rscript extract_cdhit2.R "$FILE".cd.summary1
+
+echo "
+
+########################################
+### Step 3/5: Running RepeatMasker 
+########################################
+"
+
+if [ "$4" = "none" ] ; then
+	echo "Custom TE database specified, ignored TE query species ***
+	"
+	RepeatMasker -pa $CORE -s -lib $LIB -dir . -x "$FILE".cd > ./"$FILE".cd.RM.progress
+else
+	echo "No custom TE database specified, using the provided TE query species: $4 ***
+	"
+	RepeatMasker -pa $CORE -s -species $SP -dir . -x "$FILE".cd > ./"$FILE".cd.RM.progress
+fi
+
+
+echo "
+
+########################################
+###Step 4/5: Running RepeatProteinMask
+########################################
+"
+# in some case it has no hit 
+RepeatProteinMask -engine ncbi "$FILE".cd.masked > ./"$FILE".cd.masked.protM.progress  
+
+
+echo "
+
+########################################
+### Step 5/5: Calculating summary
+########################################
+"
+Rscript RAD_TE_summary.R "$FILE".cd.summary2 "$FILE".cd.out "$FILE".cd.masked.annot
+
+
+echo "
+
+########################################
+### DONE
+########################################"
+
+
+#####################
+# TO DO
+#####################
+# 1. Set program to test for output files and automatically resume from previous step.
+# 2. Set different command for RM setting about using custom db or built in ones.
+
+
+#####################
+# NOTES
+#####################
+
+# To run:
+# ./TERAD test_file.fasta 4 ./arthro_ES_ND_PV_classified.fa
+# Inputs are 1. file to search for TE in fasta format, 2. the number of cores to use, 3. the custom library to search for TE.
+# Place test.sh, extract_cdhit2.R and RAD_TE_summary.R in the same folder as your fasta
+# custom library should also be in the same folder 
+
+
+### Installation ###
+
+# 1. Unzip TERAD.zip and place all content in the same folder, e.g. ~/Desktop/TERAD
+#
+# 2. Install RepeatMasker (http://www.repeatmasker.org/RMDownload.html) and its dependable programs including RMBlast (http://www.repeatmasker.org/RMBlast.html) and TRF (http://tandem.bu.edu/trf/trf.html). Then run the RepeatMasker configuration script. Test run RepeatMasker and RepeatProteinMask before proceeding.
+# Our program has been tested using RepeatMasker,v 1.332 2017/04/17
+#
+# 3. Install cd-hit (https://github.com/weizhongli/cdhit). 
+# Our program has been tested using CD-HIT version 4.7 (built on Jan 25 2018).
+#
+# 4. Install R (https://www.r-project.org/) and packages
+# In terminal start R by typing "R", then in the R console, type the following:
+# install.packages("readr"); install.packages("plyr"); install.packages("fitdistrplus")
+# If you are installing on a HPC system, you may need to choose custom library location (for example see: https://www.osc.edu/resources/getting_started/howto/howto_install_local_r_packages)
+# 
+# 5. Add paths of RepeatMasker and cd-hit to PATH.
+# To set path on, for example, a Mac
+# To edit the bash_profile: nano $HOME/.bash_profile
+# add these lines at the end depending on the location where you have installed these programs: 
+# export PATH=$PATH:/Users/solomon/Documents/programs/cdhit-master
+# export PATH=$PATH:/Users/solomon/Documents/programs/RepeatMasker
+# export PATH=$PATH:/Users/solomon/Desktop/TERAD
+# To save: type "control+ O", then "Y", then "control+ X"
+#
+# To set path on, for example, HPC
+# nano .bashrc
+# add these lines:
+# PATH=/XXXX/XXXX/RepeatMasker:$PATH
+# PATH=/XXXX/XXXX/cdhit:$PATH
+# 
+# 6. Now TERAD should be ready to go.
+# Test run:
+# ./TERAD test_file.fasta 4 ./arthro_ES_ND_PV_classified.fa
+
+
+
+
+# R
+# install.packages("readr"); install.packages("plyr"); install.packages("fitdistrplus")
+# Choose custom library location if installing in HPC
+# Error with RepeatMasker on HPC. Need to reinstall or update libraries?
