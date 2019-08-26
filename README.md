@@ -62,3 +62,6 @@ Test run:
 `./TERAD test_file.fasta 4 ./arthro_ES_ND_PV_classified.fa none`
  or 
 `./TERAD test_file.fasta 4 none arthropods`
+
+## Questions?
+Email `solomonchak@gmail.com`
