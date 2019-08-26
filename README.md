@@ -4,7 +4,7 @@ Extraction of transposable element composition from RADseq data
 ## Installation
 
 ### 1. Download TERAD
-Download and unzip TERAD.zip and place contents in the same folder, e.g. ~/Desktop/TERAD
+Place contents in, for example, ~/Desktop/TERAD
 
 ###  2. Install RepeatMasker 
 Install RepeatMasker (http://www.repeatmasker.org/RMDownload.html) and its dependable programs including RMBlast (http://www.repeatmasker.org/RMBlast.html) and TRF (http://tandem.bu.edu/trf/trf.html). 
