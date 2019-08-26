@@ -13,7 +13,7 @@ if [ "$1" = "--help" ] ; then
 # Test run:
 # ./TERAD test_file.fasta 4 ./arthro_ES_ND_PV_classified.fa none
 # or 
-# ./TERAD test_file.fasta 4 none arthropods         *** THIS GIVES AN ERROR, rmblast need to be installed again... ***
+# ./TERAD test_file.fasta 4 none arthropods        
 
 
 # 
@@ -116,64 +116,3 @@ echo "
 ########################################
 ### DONE
 ########################################"
-
-
-#####################
-# TO DO
-#####################
-# 1. Set program to test for output files and automatically resume from previous step.
-# 2. Set different command for RM setting about using custom db or built in ones.
-
-
-#####################
-# NOTES
-#####################
-
-# To run:
-# ./TERAD test_file.fasta 4 ./arthro_ES_ND_PV_classified.fa
-# Inputs are 1. file to search for TE in fasta format, 2. the number of cores to use, 3. the custom library to search for TE.
-# Place test.sh, extract_cdhit2.R and RAD_TE_summary.R in the same folder as your fasta
-# custom library should also be in the same folder 
-
-
-### Installation ###
-
-# 1. Unzip TERAD.zip and place all content in the same folder, e.g. ~/Desktop/TERAD
-#
-# 2. Install RepeatMasker (http://www.repeatmasker.org/RMDownload.html) and its dependable programs including RMBlast (http://www.repeatmasker.org/RMBlast.html) and TRF (http://tandem.bu.edu/trf/trf.html). Then run the RepeatMasker configuration script. Test run RepeatMasker and RepeatProteinMask before proceeding.
-# Our program has been tested using RepeatMasker,v 1.332 2017/04/17
-#
-# 3. Install cd-hit (https://github.com/weizhongli/cdhit). 
-# Our program has been tested using CD-HIT version 4.7 (built on Jan 25 2018).
-#
-# 4. Install R (https://www.r-project.org/) and packages
-# In terminal start R by typing "R", then in the R console, type the following:
-# install.packages("readr"); install.packages("plyr"); install.packages("fitdistrplus")
-# If you are installing on a HPC system, you may need to choose custom library location (for example see: https://www.osc.edu/resources/getting_started/howto/howto_install_local_r_packages)
-# 
-# 5. Add paths of RepeatMasker and cd-hit to PATH.
-# To set path on, for example, a Mac
-# To edit the bash_profile: nano $HOME/.bash_profile
-# add these lines at the end depending on the location where you have installed these programs: 
-# export PATH=$PATH:/Users/solomon/Documents/programs/cdhit-master
-# export PATH=$PATH:/Users/solomon/Documents/programs/RepeatMasker
-# export PATH=$PATH:/Users/solomon/Desktop/TERAD
-# To save: type "control+ O", then "Y", then "control+ X"
-#
-# To set path on, for example, HPC
-# nano .bashrc
-# add these lines:
-# PATH=/XXXX/XXXX/RepeatMasker:$PATH
-# PATH=/XXXX/XXXX/cdhit:$PATH
-# 
-# 6. Now TERAD should be ready to go.
-# Test run:
-# ./TERAD test_file.fasta 4 ./arthro_ES_ND_PV_classified.fa
-
-
-
-
-# R
-# install.packages("readr"); install.packages("plyr"); install.packages("fitdistrplus")
-# Choose custom library location if installing in HPC
-# Error with RepeatMasker on HPC. Need to reinstall or update libraries?
