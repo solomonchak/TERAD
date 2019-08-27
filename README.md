@@ -67,7 +67,7 @@ Inputs are:
 3. The custom library to search for TE or "none"
 4. Query species for RepeatMasker or "none"
 
-** Use either inputs 3 or 4. 
+** Use either inputs 3 or 4 and leave the other as “none. 
  
 Make sure your input file, TERAD, extract_cdhit2.R, and RAD_TE_summary.R in the same folder as well as your custom TE library in fasta format if you wish to use one.
 
