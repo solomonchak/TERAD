@@ -1,8 +1,8 @@
 # TERAD: Extraction of transposable element composition from RADseq data
 
-Transposable elements (TEs)—selfish DNA sequences that can move within the genome—comprise a large proportion of the genomes of many organisms. Although low-coverage whole genome sequencing can be used to survey TE composition, it is non-economical for species with large quantities of DNA. Here, we utilize restriction site associated DNA sequencing (RADSeq) as an alternative method to survey TE composition. 
+Transposable elements (TEs)—selfish DNA sequences that can move within the genome—comprise a large proportion of the genomes of many organisms. Although low-coverage whole genome sequencing can be used to survey TE composition, it is non-economical for species with large quantities of DNA. Here, we utilize restriction-site associated DNA sequencing (RADSeq) as an alternative method to survey TE composition. 
 
-In our paper (in revision), we demonstrate in silico that double digest restriction-site associated DNA sequencing (ddRADseq) markers contain the same TE compositions as whole genome assemblies across arthropods. Then, we show empirically using eight *Synalpheus* snapping shrimp species with large genomes that TE compositions from ddRADseq and low-coverage whole genome sequencing are comparable within and across species. 
+In our paper (Chak et al, In revision), we demonstrate in silico that double digest restriction-site associated DNA sequencing (ddRADseq) markers contain the same TE compositions as whole genome assemblies across arthropods. Then, we show empirically using eight *Synalpheus* snapping shrimp species with large genomes that TE compositions from ddRADseq and low-coverage whole genome sequencing are comparable within and across species. 
 
 This bioinformatic pipeline, TERAD, is used to extract TE compositions from RADseq data.
 
@@ -33,7 +33,7 @@ https://www.r-project.org/
 Once R is installed, in terminal start R by typing `R`, then in the R console, type the following:
 `install.packages("readr"); install.packages("plyr"); install.packages("fitdistrplus")`
 
-If you are installing on a HPC system, you may need to choose custom library location (for example see: https://www.osc.edu/resources/getting_started/howto/howto_install_local_r_packages)
+If you are installing on an HPC system, you may need to choose custom library location (for example see: https://www.osc.edu/resources/getting_started/howto/howto_install_local_r_packages)
 
 ### 5. Add paths for RepeatMasker and cd-hit to PATH.
 #### To set path on, for example, a Mac
@@ -78,7 +78,7 @@ Test run:
 ## Main output
 The main output is `test_file.fasta.cd.RAD_TE.summary2`. 
 
-It is a .csv file that summarizes the proportions of RAD tags for each major TE subclass. `.int` and `.ext` indicate tags whether the restriction enzyme cut sites (e.g.,EcoRI if we used EcoRI-ends of the paired-end ddRAD reads) were `internal` or `external` to the TE. We only analyzed TEs that *don't* have the EcoRI sites (i.e., the `.ext` proportions) to avoid the low cut frequency of EcoRI in known Arthropod TEs.
+It is a .csv file that summarizes the proportions of RAD tags for each major TE subclass. `.int` and `.ext` indicate tags whether the restriction enzyme cut sites (e.g., EcoRI if we used EcoRI-ends of the paired-end ddRAD reads) were `internal` or `external` to the TE. We only analyzed TEs that *don't* have the EcoRI sites (i.e., the `.ext` proportions) to avoid the low cut frequency of EcoRI in known Arthropod TEs.
 
 | Column names  | Notes |
 | ------------- | ------------- |
