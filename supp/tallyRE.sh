@@ -39,7 +39,10 @@ file="$1"
 # SbfI   CCTGCAGG GGACGTCC
    
    		echo SbfI; cat $file| grep 'cctgcagg\|ggacgtcc' | wc -l
+   		
+# HindIII	AAGCTT TTCGAA
    	
+   		echo SbfI; cat $file| grep 'aagctt\|ttcgaa' | wc -l
 
 # EcoRI-MspI
 
@@ -65,8 +68,11 @@ file="$1"
 # NlaIII-MluCI
 
 		echo NlaIII-MluCI; cat $file| grep  'catg\|gatc' | grep 'aatt\|ttaa' | wc -l
+		
+# SphI - HindIII		
 
 
+		echo SphI-HindIII; cat $file| grep  'gcatgc\|cgtacg' | grep 'aagctt\|ttcgaa' | wc -l
 
 
 
