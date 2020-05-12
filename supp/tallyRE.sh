@@ -42,7 +42,7 @@ file="$1"
    		
 # HindIII	AAGCTT TTCGAA
    	
-   		echo SbfI; cat $file| grep 'aagctt\|ttcgaa' | wc -l
+   		echo HindIII; cat $file| grep 'aagctt\|ttcgaa' | wc -l
 
 # EcoRI-MspI
 
