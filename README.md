@@ -54,10 +54,13 @@ PATH=/XXXX/XXXX/cdhit:$PATH
 ```
 
 ### 6. Now TERAD should be ready to go.
-Test run:
+Test run:  
+
+(You may need to do: chmod +x TERAD)
 ```
 cd ~/Desktop/TERAD
 ./TERAD test_file.fasta 4 ./arthro_ES_ND_PV_classified.fa none
+
 ```
 
 ## How to run
