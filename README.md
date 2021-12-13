@@ -126,7 +126,7 @@ From RepeatProteinMask
 - test_file.fasta.cd.masked.rmsimple.cat.all
 
 From RAD_TE_summary.R
-- test_file.fasta.cd.RAD_TE.summary1
+- ~~test_file.fasta.cd.RAD_TE.summary1~~
 - test_file.fasta.cd.RAD_TE.summary2
 
 
