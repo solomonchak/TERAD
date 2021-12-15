@@ -9,10 +9,9 @@ print(paste0("Input file 1: " ,args[1]))
 print(paste0("Input file 2: " ,args[2]))
 print(paste0("Input file 3: " ,args[3]))
 
-# testing purpose
-# args = c("small.fa.cd.summary2", "small.fa.cd.out", "small.fa.cd.masked.annot")
-# setwd("/Users/solomon/Desktop/TERAD-master/juan/")
-# args = c("L09_1_1kk.fasta.cd.summary2", "L09_1_1kk.fasta.cd.out", "L09_1_1kk.fasta.cd.masked.annot")
+# for testing purpose
+# setwd("/Users/solomon/Desktop/Juan 20211214")
+# args = c("L09_1_500k.fasta.cd.summary2", "L09_1_500k.fasta.cd.out", "L09_1_500k.fasta.cd.masked.annot")
 # update.packages(ask = FALSE)
 
 library(readr)
@@ -99,19 +98,18 @@ cdhit_split <- split(cdhit,r)
 # Test with just two lists
 # cdhit_split = cdhit_split[c(1,2)]
 
+# Combine RMout and Protein & remove duplicates
+# there're some duplicates here that needs to be removed.
+RMout_comb = ddply(rbind(RMout, Protein), "TE.tag18", function(x){
+  x[1,]
+})
 
-# cdhitTE1 = merge(cdhit[c(1:1000),], rbind(RMout, Protein), by.x="rep18", by.y="TE.tag18", all = T)
 
 # Do these analyses in each list of cdhit_split
 fun1 = function(cdhit_element){
+  # cdhit_element = cdhit_split[["1"]]
   
-  temp = rbind(RMout, Protein)
-  # there're some duplicates here that needs to be removed.
-  temp2 = ddply(temp, "TE.tag18", function(x){
-    x[1,]
-  })
-  
-  cdhitTE = merge(cdhit_element, temp2, by.x="rep18", by.y="TE.tag18", all = T)
+  cdhitTE = merge(cdhit_element, RMout_comb, by.x="rep18", by.y="TE.tag18", all = T)
   
   # The ones that are in TE but not in cdhit are ones with just 1 copy
   # Need to keep them for accounting for total library depth!
@@ -126,7 +124,8 @@ fun1 = function(cdhit_element){
   testmp.list2 = lapply(temp.list, function(x) {as.data.frame(t(x))})
   temp = do.call(rbind.fill, testmp.list2)
   cdhitTE$Class = temp[,1]
-  cdhitTE$Family = temp[,2]
+  # cdhitTE$Family = temp[,2]
+  cdhitTE$Family = tryCatch(temp[,2], error=function(err) NA) # In case all class_family are "Simple_repeat", then there'll be no second column.
   rm(temp.list, testmp.list2, temp)
   
   #lib.depth = sum(cdhitTE$depth)
