@@ -2,7 +2,7 @@
 
 Transposable elements (TEs)—selfish DNA sequences that can move within the genome—comprise a large proportion of the genomes of many organisms. Although low-coverage whole genome sequencing can be used to survey TE composition, it is non-economical for species with large quantities of DNA. Here, we utilize restriction-site associated DNA sequencing (RADSeq) as an alternative method to survey TE composition. 
 
-In our paper [(Chak et al, 2019)](http://www.columbia.edu/~dr2497/download/chak-et-al.-2019-molecres.pdf), we demonstrate in silico that double digest restriction-site associated DNA sequencing (ddRADseq) markers contain the same TE compositions as whole genome assemblies across arthropods. Then, we show empirically using eight *Synalpheus* snapping shrimp species with large genomes that TE compositions from ddRADseq and low-coverage whole genome sequencing are comparable within and across species. 
+In our paper [(Chak et al, 2019)](https://onlinelibrary.wiley.com/doi/10.1111/1755-0998.13080), we demonstrate in silico that double digest restriction-site associated DNA sequencing (ddRADseq) markers contain the same TE compositions as whole genome assemblies across arthropods. Then, we show empirically using eight *Synalpheus* snapping shrimp species with large genomes that TE compositions from ddRADseq and low-coverage whole genome sequencing are comparable within and across species. 
 
 This bioinformatic pipeline, TERAD, is used to extract TE compositions from RADseq data.
 
